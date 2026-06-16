@@ -1,0 +1,1 @@
+{"scripts":{"test":"node tests/selfcheck.js"},"devDependencies":{},"dependencies":{},"private":true,"type":"module"}

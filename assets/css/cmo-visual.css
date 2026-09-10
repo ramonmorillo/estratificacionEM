@@ -1,0 +1,105 @@
+/* CMO Suite · capa visual común basada en CMO Migraña */
+:root {
+  --cmo-accent: #6dd6ee;
+  --cmo-accent-dark: #225f96;
+  --cmo-accent-soft: #e5f5ff;
+  --cmo-bg-a: #153f72;
+  --cmo-bg-b: #443d83;
+  --cmo-focus: #ffbf47;
+  --cmo-panel: #f8fbff;
+  --cmo-line: #d8e2f0;
+  --cmo-ink: #172033;
+  --cmo-muted: #5b6880;
+  --cmo-radius: 28px;
+  --cmo-shadow: 0 24px 70px #02081740;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  min-height: 100vh;
+  background: radial-gradient(
+    circle at 15% 8%,
+    var(--cmo-bg-a) 0,
+    #101b33 36%,
+    var(--cmo-bg-b) 100%
+  ) !important;
+  color: var(--cmo-ink);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(#ffffff08 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+body > header,
+nav,
+main,
+footer {
+  position: relative;
+}
+body > .hero {
+  width: min(1180px, calc(100% - 32px));
+  margin: 24px auto 0;
+  padding: 30px !important;
+  border: 1px solid #ffffff2b !important;
+  border-radius: var(--cmo-radius) var(--cmo-radius) 0 0 !important;
+  box-shadow: var(--cmo-shadow) !important;
+  background: linear-gradient(135deg, #17477c, #276da4 55%, #4b438d) !important;
+}
+.hero h1 {
+  font-size: clamp(2.6rem, 6vw, 5rem) !important;
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  color: #fff;
+}
+.tabs {
+  width: min(1180px, calc(100% - 32px));
+  margin: auto;
+  border-radius: 0 0 22px 22px;
+}
+:where(
+  .card,
+  .variable-card,
+  .result-card,
+  .score-tile,
+  .assignment-grid article
+) {
+  border-radius: 22px !important;
+  border-color: var(--cmo-line) !important;
+  box-shadow: 0 16px 42px #0208171c !important;
+}
+button,
+.tabs button {
+  border-radius: 999px !important;
+}
+input,
+select,
+textarea {
+  border-radius: 13px !important;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 4px solid var(--cmo-focus) !important;
+  outline-offset: 2px;
+}
+footer {
+  width: min(1180px, calc(100% - 32px));
+  margin: 18px auto !important;
+  border-radius: 22px !important;
+  background: #f8fbfff0 !important;
+  color: var(--cmo-ink) !important;
+  box-shadow: 0 16px 42px #0208171c !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}

@@ -1,11 +1,12 @@
-@import url("./cmo-visual.css");
+@import url("../cmo-ds/cmo-tokens.css");
+@import url("../cmo-ds/cmo-components.css");
 
 :root {
-  --blue: #0f5f8f;
-  --green: #167566;
-  --ink: #123;
-  --muted: #5c6b73;
-  --bg: #eef6f8;
+  --blue: var(--cmo-brand-strong);
+  --green: var(--cmo-accent);
+  --ink: var(--cmo-ink);
+  --muted: var(--cmo-ink-muted);
+  --bg: var(--cmo-paper);
   --card: #fff;
   --p1: #b42318;
   --p2: #b85c00;
@@ -16,11 +17,7 @@
 }
 body {
   margin: 0;
-  font-family:
-    Inter,
-    Segoe UI,
-    Arial,
-    sans-serif;
+  font-family: var(--cmo-font-sans);
   background: var(--bg);
   color: var(--ink);
   line-height: 1.5;

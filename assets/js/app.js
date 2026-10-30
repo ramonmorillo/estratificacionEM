@@ -1,5 +1,5 @@
 import { CMO_EM_MODEL, calculatePriority, getInterventions } from './model.js';
-const tabs=[['inicio','Inicio'],['estratificacion','Estratificación CMO-EM'],['resultado','Resultado y prioridad'],['intervenciones','Intervenciones recomendadas'],['objetivos','Objetivos farmacoterapéuticos y humanísticos'],['seguimiento','Seguimiento CMO'],['extraccion','Extracción IA'],['informe','Informe/exportación'],['metodologia','Información metodológica/legal']];
+const tabs=[['inicio','Inicio'],['estratificacion','Estratificación CMO-EM'],['resultado','Resultado y prioridad'],['intervenciones','Intervenciones recomendadas'],['objetivos','Objetivos farmacoterapéuticos y humanísticos'],['seguimiento','Seguimiento CMO'],['extraccion','Extracción asistida'],['informe','Informe/exportación'],['metodologia','Información metodológica/legal']];
 const state={}; const goals=[]; const $=id=>document.getElementById(id);
 const extractionRules=[
   {id:'pregnancy',patterns:['embarazo','embarazada','lactancia','deseo gestacional']},

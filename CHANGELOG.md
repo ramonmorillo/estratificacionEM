@@ -1,6 +1,10 @@
 # Changelog — CMO-EM Pro
 
-## Sin publicar — Identidad CMO Design System 0.1.0 (rama `design/cmo-ds-0.1.0`)
+## 1.0.0 — 2026-10-30 — Primera versión declarada
+
+Primera versión declarada (confirmada por el autor): el repositorio no declaraba ninguna versión. Se declara 1.0.0 en `package.json` y `cmo-app-meta` (la prueba exige que coincidan); `status: "released"`, `releaseDate: "2026-10-30"`. CMO Design System actualizado a 0.2.0 (firma multilingüe, compatible). Sin cambios en el modelo ni en `assets/js/app.js`.
+
+### Cambios incluidos (antes «sin publicar»)
 
 Cambio exclusivamente visual. Sin cambios en `assets/js/model.js` ni `assets/js/app.js`.
 - Copia fijada del CMO Design System 0.1.0 en `assets/cmo-ds/` (manifiesto SHA-256).

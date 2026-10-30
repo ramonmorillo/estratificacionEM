@@ -1,105 +1,47 @@
-/* CMO Suite · capa visual común basada en CMO Migraña */
-:root {
-  --cmo-accent: #6dd6ee;
-  --cmo-accent-dark: #225f96;
-  --cmo-accent-soft: #e5f5ff;
-  --cmo-bg-a: #153f72;
-  --cmo-bg-b: #443d83;
-  --cmo-focus: #ffbf47;
-  --cmo-panel: #f8fbff;
-  --cmo-line: #d8e2f0;
-  --cmo-ink: #172033;
-  --cmo-muted: #5b6880;
-  --cmo-radius: 28px;
-  --cmo-shadow: 0 24px 70px #02081740;
-}
-html {
-  scroll-behavior: smooth;
-}
-body {
-  min-height: 100vh;
-  background: radial-gradient(
-    circle at 15% 8%,
-    var(--cmo-bg-a) 0,
-    #101b33 36%,
-    var(--cmo-bg-b) 100%
-  ) !important;
-  color: var(--cmo-ink);
-}
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(#ffffff08 1px, transparent 1px),
-    linear-gradient(90deg, #ffffff08 1px, transparent 1px);
-  background-size: 44px 44px;
-  pointer-events: none;
-}
-body > header,
-nav,
-main,
-footer {
-  position: relative;
-}
+/* CMO Design System 0.1.0 · tema «Estratos» de CMO-EM Pro
+   Se carga después de styles.css. Solo presentación: no altera textos, puntuaciones
+   ni los colores semánticos de prioridad (--p1/--p2/--p3).
+   Tokens: assets/cmo-ds/ (copia fijada, ver CMO-DS-VERSION.json). */
+:root { --cmo-accent: #4f46a8; } /* submarca Esclerosis Múltiple: solo identidad, nunca resultados */
+
+body { background: var(--cmo-paper); color: var(--cmo-ink); }
+
 body > .hero {
-  width: min(1180px, calc(100% - 32px));
-  margin: 24px auto 0;
-  padding: 30px !important;
-  border: 1px solid #ffffff2b !important;
-  border-radius: var(--cmo-radius) var(--cmo-radius) 0 0 !important;
-  box-shadow: var(--cmo-shadow) !important;
-  background: linear-gradient(135deg, #17477c, #276da4 55%, #4b438d) !important;
+  width: min(1180px, 100% - 32px); margin: 0 auto; padding: clamp(24px, 4vw, 44px) 0 clamp(20px, 3vw, 28px);
+  background: none; color: var(--cmo-ink); border-bottom: 1px solid var(--cmo-rule);
 }
-.hero h1 {
-  font-size: clamp(2.6rem, 6vw, 5rem) !important;
-  line-height: 0.95;
-  letter-spacing: -0.055em;
-  color: #fff;
+.hero > div:first-child::before { /* franja de estratos C·M·O (decorativa) */
+  content: ""; display: block; width: 160px; height: 4px; margin-bottom: var(--cmo-space-4);
+  background: linear-gradient(90deg, var(--cmo-c) 0 50%, transparent 50% 52%, var(--cmo-m) 52% 80%, transparent 80% 82%, var(--cmo-o) 82%);
 }
-.tabs {
-  width: min(1180px, calc(100% - 32px));
-  margin: auto;
-  border-radius: 0 0 22px 22px;
-}
-:where(
-  .card,
-  .variable-card,
-  .result-card,
-  .score-tile,
-  .assignment-grid article
-) {
-  border-radius: 22px !important;
-  border-color: var(--cmo-line) !important;
-  box-shadow: 0 16px 42px #0208171c !important;
-}
-button,
-.tabs button {
-  border-radius: 999px !important;
-}
-input,
-select,
-textarea {
-  border-radius: 13px !important;
-}
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 4px solid var(--cmo-focus) !important;
-  outline-offset: 2px;
-}
-footer {
-  width: min(1180px, calc(100% - 32px));
-  margin: 18px auto !important;
-  border-radius: 22px !important;
-  background: #f8fbfff0 !important;
-  color: var(--cmo-ink) !important;
-  box-shadow: 0 16px 42px #0208171c !important;
-}
-@media (prefers-reduced-motion: reduce) {
-  * {
-    scroll-behavior: auto !important;
-    transition: none !important;
-  }
+.hero h1 { margin: .2rem 0 .5rem; font: 600 clamp(2.1rem, 5vw, 3.2rem)/1.08 var(--cmo-font-serif); letter-spacing: -.015em; color: var(--cmo-ink); }
+.hero p { color: var(--cmo-ink-muted); }
+.hero .eyebrow { color: var(--cmo-accent); font-size: var(--cmo-text-xs); }
+.score-pill { background: var(--cmo-surface); border: 1px solid var(--cmo-rule); border-radius: var(--cmo-radius-md); box-shadow: var(--cmo-shadow-1); color: var(--cmo-ink); }
+.score-pill strong { font-variant-numeric: tabular-nums; }
+
+.tabs { width: min(1180px, 100% - 32px); margin: 0 auto; padding: var(--cmo-space-2) 0; background: var(--cmo-paper);
+  border-bottom: 1px solid var(--cmo-rule); box-shadow: none; border-radius: 0; }
+.tabs button { min-height: 40px; border-radius: var(--cmo-radius-sm); background: transparent; color: var(--cmo-ink); border: 1px solid transparent; }
+.tabs button:hover { border-color: var(--cmo-control-border); }
+.tabs button.active { background: var(--cmo-ink); color: #fff; }
+
+main { width: min(1180px, 100% - 32px); max-width: none; margin: auto; padding: var(--cmo-space-5) 0; }
+.panel > h2 { font: 600 clamp(1.5rem, 3vw, 2rem)/1.2 var(--cmo-font-serif); }
+.card, .variable-card, .result-card { border-color: var(--cmo-rule); border-radius: var(--cmo-radius-md); box-shadow: var(--cmo-shadow-1); }
+.card h3, .dimension h3 { font-family: var(--cmo-font-serif); font-weight: 600; overflow-wrap: break-word; hyphens: auto; }
+
+button { min-height: 44px; border-radius: var(--cmo-radius-sm); }
+input, select, textarea { border-color: var(--cmo-control-border); border-radius: var(--cmo-radius-sm); color: var(--cmo-ink); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--cmo-focus); outline-offset: 2px; }
+
+footer { width: min(1180px, 100% - 32px); margin: var(--cmo-space-6) auto; padding: var(--cmo-space-5) 0 var(--cmo-space-6);
+  background: none; color: var(--cmo-ink-muted); border-top: 1px solid var(--cmo-rule); text-align: left; font-size: var(--cmo-text-sm); }
+footer cmo-author-signature { margin-top: var(--cmo-space-4); }
+footer a { color: var(--cmo-brand-strong); }
+
+@media print {
+  body { background: #fff; }
+  .hero > div:first-child::before { display: none; }
+  .card, .variable-card, .result-card { box-shadow: none; }
 }

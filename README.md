@@ -4,11 +4,17 @@ Herramienta estática para estratificación y apoyo a la Atención Farmacéutica
 
 ## Estructura
 
-- `index.html`: interfaz principal y módulos de navegación.
-- `assets/css/styles.css`: identidad visual responsive.
-- `assets/js/model.js`: configuración clínica, puntuaciones, reglas e intervenciones.
-- `assets/js/app.js`: renderizado, cálculo en navegador, objetivos, seguimiento e informes.
-- `tests/selfcheck.js`: autocomprobaciones del motor de prioridad.
+- `index.html`: flujo de siete etapas (Inicio, Historia clínica, Revisión, Estratificación, Necesidades, Intervenciones, Informe).
+- `assets/js/model.js`: **configuración clínica** (variables, puntuaciones, umbrales, regla automática, intervenciones). No se modifica sin validación clínica.
+- `assets/js/extraction-rules.js`: reglas locales de palabras clave del análisis asistido (no es IA; solo propone).
+- `assets/js/assessment.js`: adaptador al flujo común (respuestas Sí/No/Pendiente, modificación profesional, informe, exportación). Sin reglas clínicas.
+- `assets/js/app.js`: interfaz.
+- `assets/cmo-ds/`: copia fijada del CMO Design System y del núcleo común (`cmo-report.js`, `cmo-pdf.js`, `cmo-flow.js`); no se edita a mano (`CMO-DS-VERSION.json`).
+- `tests/`: autocomprobación del motor, pruebas unitarias y recorridos E2E.
+
+## Privacidad
+
+Todo se procesa en el navegador; no hay servidor, analítica ni terceros. No se guardan casos de forma permanente: solo un borrador en `sessionStorage` (sin cifrar) mientras la pestaña siga abierta. Use únicamente identificadores seudonimizados (un dato seudonimizado sigue siendo un dato personal). Herramienta de apoyo profesional, no producto sanitario certificado y pendiente de validación asistencial.
 
 ## GitHub Pages
 
@@ -23,5 +29,6 @@ Herramienta estática para estratificación y apoyo a la Atención Farmacéutica
 Ejecutar:
 
 ```bash
-npm test
+npm test             # motor + adaptador + analizador + firma
+npm run test:e2e     # recorridos en Chromium (Playwright); AXE_PATH=<axe.min.js> añade la auditoría WCAG
 ```

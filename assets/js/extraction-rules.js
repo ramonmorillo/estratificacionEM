@@ -4,6 +4,8 @@
 // sin cambios: la versión congelada está en tests/fixtures/extractor-v1.0.0.js y las pruebas
 // exigen que ambas propongan exactamente lo mismo. Lo añadido es solo apoyo a la revisión:
 // fragmento de evidencia y aviso de posible negación (no suprime ninguna propuesta).
+import { evidenceAt } from '../cmo-ds/cmo-report.js';
+
 export const EXTRACTOR_VERSION = '1.1.0';
 export const NETWORK_FREE = true;
 
@@ -29,21 +31,6 @@ export const EXTRACTION_RULES = [
   {id:'socioeconomic',patterns:['aislamiento social','sin apoyo familiar','inestabilidad financiera','sinhogarismo']},
   {id:'training_barrier',patterns:['barrera idiomática','baja alfabetización','dificultad para asimilar pautas']}
 ];
-
-// Indicios de negación o incertidumbre cerca de la coincidencia. Solo generan un aviso.
-const NEG_BEFORE = /(?:^|[\s,;(])(?:no|sin|niega|niegan|nunca|ni|ex|exfumador|exfumadora|ausencia de|descarta|descartado|descartada|se descarta|antecedente de|antecedentes de|historia de|previo|previa)\s+(?:[\wáéíóúüñ]+\s+){0,3}$/;
-const NEG_AFTER = /^\s*(?:negativ[oa]s?|descartad[oa]s?|ausentes?|: ?no\b|\(no\))/;
-
-function evidenceAt(original, index, length) {
-  const start = Math.max(0, index - 45), end = Math.min(original.length, index + length + 45);
-  const clean = s => s.replace(/\s+/g, ' ');
-  const before = original.slice(start, index), after = original.slice(index + length, end);
-  const sentenceBefore = before.split(/[.\n;]/).pop() || '';
-  return {
-    before: (start > 0 ? '…' : '') + clean(before), match: clean(original.slice(index, index + length)), after: clean(after) + (end < original.length ? '…' : ''),
-    negated: NEG_BEFORE.test(sentenceBefore.toLowerCase()) || NEG_AFTER.test(after.toLowerCase())
-  };
-}
 
 /**
  * Devuelve las propuestas [{id, value, evidence:{before, match, after}, ambiguous, note}].

@@ -184,7 +184,7 @@ test('recorrido manual completo: 18 puntos → Prioridad 1, informes y exportaci
   const bad = path.join(path.dirname(jsonFile), 'malo.json');
   fs.writeFileSync(bad, '{"schema":"otro"}');
   await page.setInputFiles('#importFile', bad);
-  assert.match(await page.textContent('.cmo-toast'), /No se ha podido importar/);
+  await page.waitForFunction(() => /No se ha podido importar/.test(document.querySelector('.cmo-toast')?.textContent || ''));
   await page.setInputFiles('#importFile', jsonFile);
   await page.click('dialog button:has-text("Importar y sustituir")');
   assert.equal(await page.textContent('#headerScore'), '18/52');

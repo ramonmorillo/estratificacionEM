@@ -49,6 +49,26 @@ export function csvCell(value) {
 export const toCsv = (rows, { separator = ';', bom = true } = {}) =>
   (bom ? '﻿' : '') + rows.map(r => r.map(csvCell).join(separator)).join('\r\n') + '\r\n';
 
+// ---------- Apoyo a la revisión de propuestas del análisis de texto ----------
+// Indicios de negación, antecedente o descarte cerca de una coincidencia. Solo sirven para AVISAR al
+// profesional: no deciden nada ni sustituyen a las reglas de extracción de cada herramienta.
+const NEG_BEFORE = /(?:^|[\s,;(])(?:no|sin|niega|niegan|nunca|ni|ex|exfumador|exfumadora|ausencia de|descarta|descartado|descartada|se descarta|antecedente de|antecedentes de|historia de|previo|previa)\s+(?:[\wáéíóúüñ]+\s+){0,3}$/;
+const NEG_AFTER = /^\s*(?:negativ[oa]s?|descartad[oa]s?|ausentes?|: ?no\b|\(no\))/;
+
+/** Fragmento literal alrededor de una coincidencia: {before, match, after, negated}. */
+export function evidenceAt(original, index, length) {
+  original = String(original ?? '');
+  const start = Math.max(0, index - 45), end = Math.min(original.length, index + length + 45);
+  const clean = s => s.replace(/\s+/g, ' ');
+  const before = original.slice(start, index), after = original.slice(index + length, end);
+  const sentenceBefore = before.split(/[.\n;]/).pop() || '';
+  return {
+    before: (start > 0 ? '…' : '') + clean(before), match: clean(original.slice(index, index + length)), after: clean(after) + (end < original.length ? '…' : ''),
+    negated: NEG_BEFORE.test(sentenceBefore.toLowerCase()) || NEG_AFTER.test(after.toLowerCase())
+  };
+}
+export const NEGATION_NOTE = 'Posible negación, antecedente o descarte en el texto: compruebe el sentido antes de aceptar.';
+
 const text = (v, max = 4000) => String(v ?? '').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').trim().slice(0, max);
 const list = v => (Array.isArray(v) ? v : []);
 const item = i => ({ group: text(i?.group, 200), label: text(i?.label, 600) });
@@ -116,6 +136,7 @@ export function validateReport(r) {
   return errors;
 }
 
+const STRATIFICATION_TITLE = 'Valoración CMO (estratificación)';
 const scoreLabel = s => (s.score === null ? '' : `${s.score}${s.maxScore === null ? '' : `/${s.maxScore}`}`);
 const subtotalsLabel = s => s.subtotals.map(x => `${x.label} ${x.points}${x.max === null ? '' : `/${x.max}`}`).join('; ');
 const toolLabel = r => `${r.tool.name}${r.tool.version ? ` v${r.tool.version}` : ''}`;
@@ -137,7 +158,7 @@ export function reportSections(r) {
   const sub = t => t && { kind: 'sub', text: t };
 
   add('Situación clínica y farmacoterapéutica relevante', r.context.map(c => kv(c.label, c.value)));
-  add('Valoración CMO (estratificación)', [
+  add(STRATIFICATION_TITLE, [
     kv('Modelo', [r.model.name, r.model.version && `versión ${r.model.version}`].filter(Boolean).join(' · ')),
     kv('Puntuación total', scoreLabel(s) && `${scoreLabel(s)}${s.subtotals.length ? ` (${subtotalsLabel(s)})` : ''}`),
     kv('Resultado calculado por el modelo', s.calculatedLevel),
@@ -191,11 +212,13 @@ export function reportToText(r) {
   const out = [r.title.toUpperCase()];
   reportHeader(r).forEach(([k, v]) => out.push(`${k}: ${v}`));
   const line = l => (l.kind === 'kv' ? `- ${l.key}: ${l.text}` : l.kind === 'sub' ? l.text : l.kind === 'item' ? `  - ${l.text}` : `- ${l.text}`);
-  reportSections(r).forEach((section, index) => {
-    if (index === 2) out.push('', resultLine(r).toUpperCase());
+  // El resultado va siempre inmediatamente después de la valoración, exista o no la sección de contexto.
+  let placed = false;
+  for (const section of reportSections(r)) {
     out.push('', section.title.toUpperCase(), ...section.lines.map(line));
-  });
-  if (reportSections(r).length < 3) out.push('', resultLine(r).toUpperCase());
+    if (section.title === STRATIFICATION_TITLE) { out.push('', resultLine(r).toUpperCase()); placed = true; }
+  }
+  if (!placed) out.push('', resultLine(r).toUpperCase());
   out.push('', ...footerLines(r));
   return out.map(toPlain).join('\n').replace(/\n{3,}/g, '\n\n');
 }

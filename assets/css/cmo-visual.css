@@ -1,4 +1,4 @@
-/* CMO Design System 0.1.0 · tema «Estratos» de CMO-EM Pro
+/* CMO Design System 0.3.0 · tema «Estratos» de CMO-EM Pro
    Se carga después de styles.css. Solo presentación: no altera textos, puntuaciones
    ni los colores semánticos de prioridad (--p1/--p2/--p3).
    Tokens: assets/cmo-ds/ (copia fijada, ver CMO-DS-VERSION.json). */
@@ -20,14 +20,7 @@ body > .hero {
 .score-pill { background: var(--cmo-surface); border: 1px solid var(--cmo-rule); border-radius: var(--cmo-radius-md); box-shadow: var(--cmo-shadow-1); color: var(--cmo-ink); }
 .score-pill strong { font-variant-numeric: tabular-nums; }
 
-.tabs { width: min(1180px, 100% - 32px); margin: 0 auto; padding: var(--cmo-space-2) 0; background: var(--cmo-paper);
-  border-bottom: 1px solid var(--cmo-rule); box-shadow: none; border-radius: 0; }
-.tabs button { min-height: 40px; border-radius: var(--cmo-radius-sm); background: transparent; color: var(--cmo-ink); border: 1px solid transparent; }
-.tabs button:hover { border-color: var(--cmo-control-border); }
-.tabs button.active { background: var(--cmo-ink); color: #fff; }
-
 main { width: min(1180px, 100% - 32px); max-width: none; margin: auto; padding: var(--cmo-space-5) 0; }
-.panel > h2 { font: 600 clamp(1.5rem, 3vw, 2rem)/1.2 var(--cmo-font-serif); }
 .card, .variable-card, .result-card { border-color: var(--cmo-rule); border-radius: var(--cmo-radius-md); box-shadow: var(--cmo-shadow-1); }
 .card h3, .dimension h3 { font-family: var(--cmo-font-serif); font-weight: 600; overflow-wrap: break-word; hyphens: auto; }
 
@@ -40,8 +33,44 @@ footer { width: min(1180px, 100% - 32px); margin: var(--cmo-space-6) auto; paddi
 footer cmo-author-signature { margin-top: var(--cmo-space-4); }
 footer a { color: var(--cmo-brand-strong); }
 
+/* Flujo común de 7 etapas (cmo-flow.css). Los selectores de elemento de styles.css (button, input)
+   no tienen capa y ganarían a los componentes: aquí se restituye el aspecto del componente. */
+.hero { align-items: flex-start; }
+.header-side { display: grid; gap: var(--cmo-space-2); justify-items: end; }
+.privacy-pill { margin: 0; padding: 2px var(--cmo-space-3); border: 1px solid var(--cmo-rule); border-radius: var(--cmo-radius-pill); font-size: var(--cmo-text-xs); font-weight: 600; color: var(--cmo-ink-muted); background: var(--cmo-surface); }
+.score-pill small { display: block; font-size: var(--cmo-text-xs); color: var(--cmo-ink-muted); }
+.cmo-stepper button { background: transparent; color: var(--cmo-ink-muted); border: 1px solid transparent; border-radius: var(--cmo-radius-sm); min-height: 44px; padding: var(--cmo-space-1) var(--cmo-space-3); font-weight: 600; }
+.cmo-stepper button[aria-current="step"] { background: var(--cmo-ink); color: #fff; }
+.cmo-tristate input { width: 1px; padding: 0; border: 0; }
+.cmo-tristate { padding: 0; align-self: flex-start; }
+.cmo-review select, .intervention-list select { min-width: 12rem; }
+.cmo-review td { overflow-wrap: anywhere; }
+.cmo-review td button { white-space: nowrap; min-width: 5.5rem; }
+.identity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--cmo-space-4); }
+.identity-grid label, .cmo-panel label { display: grid; gap: var(--cmo-space-1); font-weight: 600; font-size: var(--cmo-text-sm); margin-bottom: var(--cmo-space-3); }
+.identity-grid small { font-weight: 400; color: var(--cmo-ink-muted); }
+.checks label, .cmo-tristate label { display: inline-flex; margin-bottom: 0; }
+.checks input { width: auto; }
+.error-text { grid-column: 1 / -1; margin: 0; min-height: 1.2em; color: var(--cmo-error); font-weight: 600; font-size: var(--cmo-text-sm); }
+.choice-title { margin: var(--cmo-space-5) 0 var(--cmo-space-3); font: 600 var(--cmo-text-lg)/1.25 var(--cmo-font-serif); }
+.entry-options { margin-bottom: var(--cmo-space-5); }
+.entry-options .card { display: flex; flex-direction: column; align-items: flex-start; gap: var(--cmo-space-2); }
+.entry-options .card button { margin-top: auto; }
+.actions { display: flex; flex-wrap: wrap; gap: var(--cmo-space-3); margin: var(--cmo-space-3) 0; }
+.intervention-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--cmo-space-2); }
+.intervention-list li { display: grid; grid-template-columns: 1fr minmax(12rem, 18rem); gap: var(--cmo-space-3); align-items: center; padding-bottom: var(--cmo-space-2); border-bottom: 1px solid var(--cmo-rule); }
+.result-card .cmo-level { margin: 0 0 var(--cmo-space-3); }
+.result-card progress { width: 100%; }
+button:disabled { opacity: .55; cursor: not-allowed; }
+.cmo-modal button.cmo-btn--secondary { background: var(--cmo-surface); color: var(--cmo-brand-strong); border: 1px solid var(--cmo-brand-strong); }
+.cmo-modal button.cmo-btn--danger, button.danger { background: var(--cmo-error); color: #fff; }
+.cmo-skip:focus { left: var(--cmo-space-3); top: var(--cmo-space-3); background: var(--cmo-surface); }
+[aria-invalid="true"] { border-color: var(--cmo-error); }
+@media (max-width: 760px) { .header-side { justify-items: start; } .intervention-list li { grid-template-columns: 1fr; } }
+
 @media print {
   body { background: #fff; }
+  .header-side button, .actions, .cmo-button-group { display: none; }
   .hero > div:first-child::before { display: none; }
   .card, .variable-card, .result-card { box-shadow: none; }
 }

@@ -1,6 +1,6 @@
 # Changelog — CMO-EM Pro
 
-## 1.1.0 — sin publicar (rama `claude/zen-pasteur-u8tn7z`)
+## 1.1.0 — 2026-11-11
 
 Adopción del flujo asistencial común del ecosistema CMO (patrón CMO Respiratorio). **Sin cambios en el modelo clínico**: `assets/js/model.js` es idéntico byte a byte (huella fijada en `tests/fixtures/model.sha256`).
 
